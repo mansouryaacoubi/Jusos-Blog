@@ -3,6 +3,8 @@
 Jusos-Blog Wordpress Theme (Young Socialists in the SPD/Jusos in der SPD) for Jusos-Clubs in Germany.
 A more detailed explanation can be found in [myblog/Jusos][myblog].
 
+An example of the Jusos-Blog theme can be found at [jusos.ga][jusosex].
+
 ![Screenshot of Jusos-Blog ver. 2.0][screen]
 
 ## Modify WP-Theme
@@ -39,6 +41,7 @@ Working on a shell-script...
 
 [myblog]: <http://mansour.yaacoubi.com/create-your-own-jusos-blog/>
 [7z]: <http://www.7-zip.org/>
+[jusosex]: <http://jusos.ga>
 [jblog]: <https://github.com/mansouryaacoubi/Jusos-Blog/blob/master/jusos-blog>
 [winscr]: <https://github.com/mansouryaacoubi/Jusos-Blog/blob/master/make_wptheme.bat>
 [thm]: <https://github.com/mansouryaacoubi/Jusos-Blog/blob/master/theme>
