@@ -14,6 +14,8 @@ and ideas.
 To create the WP-Theme on Windows you will need [7zip][7z]. Download and install 7zip and
 if neccessary modify the path in the batch-script [make_wptheme.bat][winscr].
 After execution you will find the WP-Theme in the following path [theme][thm]>[jusos-blog2017.zip][thmzip].
+But you can also use the built-in compressing-function of Windows. Open the context-menu by right-clicking
+the jusos-blog folder, select **Send to** and then **ZIP-compressed folder**.
 
 ### Unix
 Working on a shell-script...
