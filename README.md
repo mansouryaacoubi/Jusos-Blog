@@ -13,7 +13,13 @@ After execution you will find the WP-Theme in the following path [theme][thm]/[j
 ### Unix
 Working on a shell-script...
 
-## 
+## Changes in Wordpress Theme Manager
+
+Previous (deprecated) version from 2013
+![previous Jusos theme 2013][oldver]
+
+New version from 2017
+![new Jusos theme 2017][newver]
 
 
 [myblog]: <http://mansour.yaacoubi.com/create-your-own-jusos-blog/>
@@ -21,3 +27,5 @@ Working on a shell-script...
 [winscr]: <https://github.com/mansouryaacoubi/Jusos-Blog/blob/master/make_wptheme.bat>
 [thm]: <https://github.com/mansouryaacoubi/Jusos-Blog/blob/master/theme>
 [thmzip]: <https://github.com/mansouryaacoubi/Jusos-Blog/blob/master/theme/jusos-blog2017.zip>
+[oldver]: <https://raw.githubusercontent.com/mansouryaacoubi/Jusos-Blog/master/design-update/ver1.1.png>
+[newver]: <https://raw.githubusercontent.com/mansouryaacoubi/Jusos-Blog/master/design-update/ver2.0.png>
