@@ -1,0 +1,39 @@
+a,
+#fonts a:hover, #fonts a.active,
+#topmenu li a:hover,#topmenu li.active a,
+.headlines dt a,
+
+.nav1 li.active a, .nav1 li a:hover, .nav1 li.current_page_item a,
+#rss a:hover,
+#nav2 li a:hover,
+#nav2 li.active a,
+
+.idTabs li a:hover,
+.idTabs .selected,
+
+.list3 li a em {
+
+	color: #e20916;
+}
+
+#columns h2, #columns h2 a, 
+#columns h2,
+#columns .post h2,
+.date-comments a {
+}
+
+#nav .active_category, #nav .current-cat{
+  background: #fff; 
+}
+
+
+
+
+
+.list1 li, #columns h3, #columns h5{
+	nobackground: url(red/ico-star.gif) no-repeat left;
+}
+
+#rightcol {
+	overflow:		hidden;
+}

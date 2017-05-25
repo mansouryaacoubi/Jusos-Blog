@@ -1,0 +1,4 @@
+facebook-social-plugin-widgets.zip > facebook-social-plugin-widgets/facebook-sp-widgets.php
+jusos-flickr.zip > jusos-flickr/jusos-flickr.php
+jusos-tweets.zip > jusos-tweets/jusos-tweets.php
+p3k-archive-widget.zip > p3k-archive-widget/p3k-archive.php
