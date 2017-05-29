@@ -1,5 +1,5 @@
-# Jusos-Blog
-![Travis Banner][travis]
+# Jusos-Blog ![Travis Banner][travis]
+
 Jusos-Blog Wordpress Theme (Young Socialists in the SPD/Jusos in der SPD) for Jusos-Clubs in Germany.
 A more detailed explanation can be found in [myblog/Jusos][myblog].
 
