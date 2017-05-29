@@ -260,12 +260,11 @@ function advance(els, opts, val) {
 function buildPager(els, opts) {
     var $p = $(opts.pager);
     $.each(els, function(i,o) {
-        var $a = (typeof opts.pagerAnchorBuilder === 'function')
-            ? $(opts.pagerAnchorBuilder(i,o))
-            : $('<a href="#">'+(i+1)+'</a>');
+        var $a = (typeof opts.pagerAnchorBuilder === 'function') ? $(opts.pagerAnchorBuilder(i,o)) : $('<a href="#">'+(i+1)+'</a>');
         // don't reparent if anchor is in the dom
-        if ($a.parents('body').length == 0)
+        if ($a.parents('body').length === 0) {
             $a.appendTo($p);
+		}
         $a.bind('click',function() {
             opts.nextSlide = i;
             var p = els[0].parentNode, timeout = p.cycleTimeout;
@@ -273,52 +272,52 @@ function buildPager(els, opts) {
                 clearTimeout(timeout);
                 p.cycleTimeout = 0;
             }            
-            if (typeof opts.pagerClick == 'function')
+            if (typeof opts.pagerClick === 'function') {
                 opts.pagerClick(opts.nextSlide, els[opts.nextSlide]);
+			}
             go(els,opts,1,!opts.rev);
             return false;
         });
     });
    $p.find('a').filter('a:eq('+opts.startingSlide+')').addClass('activeSlide');
-};
+}
 
 // this fixes clearType problems in ie6 by setting an explicit bg color
 function clearTypeFix($slides) {
     function hex(s) {
-        var s = parseInt(s).toString(16);
+        s = parseInt(s, 10).toString(16);
         return s.length < 2 ? '0'+s : s;
-    };
+    }
     function getBg(e) {
-        for ( ; e && e.nodeName.toLowerCase() != 'html'; e = e.parentNode) {
+        for ( ; e && e.nodeName.toLowerCase() !== 'html'; e = e.parentNode) {
             var v = $.css(e,'background-color');
             if (v.indexOf('rgb') >= 0 ) { 
                 var rgb = v.match(/\d+/g); 
                 return '#'+ hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
             }
-            if (v && v != 'transparent')
-                return v;
+            if (v && v !== 'transparent') { return v; }
         }
         return '#ffffff';
-    };
+    }
     $slides.each(function() { $(this).css('background-color', getBg(this)); });
-};
+}
 
 
 $.fn.cycle.custom = function(curr, next, opts, cb) {
     var $l = $(curr), $n = $(next);
     $n.css(opts.cssBefore);
-    var fn = function() {$n.animate(opts.animIn, opts.speedIn, opts.easeIn, cb)};
+    var fn = function() {$n.animate(opts.animIn, opts.speedIn, opts.easeIn, cb);};
     $l.animate(opts.animOut, opts.speedOut, opts.easeOut, function() {
-        if (opts.cssAfter) $l.css(opts.cssAfter);
-        if (!opts.sync) fn();
+        if (opts.cssAfter) { $l.css(opts.cssAfter); }
+        if (!opts.sync) { fn(); }
     });
-    if (opts.sync) fn();
+    if (opts.sync) { fn(); }
 };
 
 $.fn.cycle.transitions = {
     fade: function($cont, $slides, opts) {
         $slides.not(':eq('+opts.startingSlide+')').css('opacity',0);
-        opts.before.push(function() { $(this).show() });
+        opts.before.push(function() { $(this).show(); });
         opts.animIn    = { opacity: 1 };
         opts.animOut   = { opacity: 0 };
         opts.cssAfter  = { display: 'none' };
@@ -438,7 +437,7 @@ jQuery.fn.cycle.transitions.scrollHorz = function($cont, $slides, opts) {
         $slides.not(curr).css(opts.cssBefore);
     });
     opts.cssFirst = { left: 0 };
-    opts.cssAfter = { display: 'none' }
+    opts.cssAfter = { display: 'none' };
 };
 jQuery.fn.cycle.transitions.scrollVert = function($cont, $slides, opts) {
     $cont.css('overflow','hidden');
@@ -452,7 +451,7 @@ jQuery.fn.cycle.transitions.scrollVert = function($cont, $slides, opts) {
         $slides.not(curr).css(opts.cssBefore);
     });
     opts.cssFirst = { top: 0 };
-    opts.cssAfter = { display: 'none' }
+    opts.cssAfter = { display: 'none' };
 };
 
 // slideX/slideY
@@ -469,32 +468,37 @@ jQuery.fn.cycle.transitions.slideY = function($cont, $slides, opts) {
 jQuery.fn.cycle.transitions.shuffle = function($cont, $slides, opts) {
     var w = $cont.css('overflow', 'visible').width();
     $slides.css({left: 0, top: 0});
-    opts.before.push(function() { jQuery(this).show() });
+    opts.before.push(function() { jQuery(this).show(); });
     opts.speed = opts.speed / 2; // shuffle has 2 transitions        
     opts.random = 0;
     opts.shuffle = opts.shuffle || {left:-w, top:15};
     opts.els = [];
-    for (var i=0; i < $slides.length; i++)
+    var i = 0;
+	for (i=0; i < $slides.length; i++) {
         opts.els.push($slides[i]);
+	}
 
-    for (var i=0; i < opts.startingSlide; i++)
+    for (i=0; i < opts.startingSlide; i++) {
         opts.els.push(opts.els.shift());
+	}
 
     // custom transition fn (hat tip to Benjamin Sterling for this bit of sweetness!)
     opts.fxFn = function(curr, next, opts, cb, fwd) {
         var $el = fwd ? jQuery(curr) : jQuery(next);
         $el.animate(opts.shuffle, opts.speedIn, opts.easeIn, function() {
             fwd ? opts.els.push(opts.els.shift()) : opts.els.unshift(opts.els.pop());
-            if (fwd) 
-                for (var i=0, len=opts.els.length; i < len; i++)
+            if (fwd) {
+                for (var i=0, len=opts.els.length; i < len; i++) {
                     jQuery(opts.els[i]).css('z-index', len-i);
+				}
+			}
             else {
                 var z = jQuery(curr).css('z-index');
-                $el.css('z-index', parseInt(z)+1);
+                $el.css('z-index', parseInt(z, 10)+1);
             }
             $el.animate({left:0, top:0}, opts.speedOut, opts.easeOut, function() {
                 jQuery(fwd ? this : curr).hide();
-                if (cb) cb();
+                if (cb) { cb(); }
             });
         });
     };
