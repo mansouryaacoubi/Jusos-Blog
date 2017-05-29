@@ -82,26 +82,31 @@ $.fn.cycle = function(options) {
             opts.randomIndex = 0;
             opts.startingSlide = opts.randomMap[0];
         }
-        else if (opts.startingSlide >= els.length)
-            opts.startingSlide = 0; // catch bogus input
+        else if (opts.startingSlide >= els.length) {
+			opts.startingSlide = 0;  // catch bogus input
+		}
         var first = opts.startingSlide || 0;
         $slides.css('position','absolute').hide().each(function(i) { 
             var z = first ? i >= first ? els.length - (i-first) : first-i : els.length-i;
-            $(this).css('z-index', z) 
+            $(this).css('z-index', z);
         });
         
         $(els[first]).show();
-        if (opts.fit && w) 
-            $slides.width(w);
-        if (opts.fit && h && h != 'auto') 
+        if (opts.fit && w) {
+			$slides.width(w);
+		}
+        if (opts.fit && h && h !== 'auto') {
             $slides.height(h);
-        if (opts.pause) 
+		}
+        if (opts.pause) {
             $cont.hover(function(){this.cyclePause=1;}, function(){this.cyclePause=0;});
+		}
 
         // run transition init fn
         var init = $.fn.cycle.transitions[opts.fx];
-        if ($.isFunction(init))
+        if ($.isFunction(init)) {
             init($cont, $slides, opts);
+		}
 
         $slides.each(function() {
             var $el = $(this);
@@ -114,100 +119,122 @@ $.fn.cycle = function(options) {
         opts.animOut = opts.animOut || {};
 
         $slides.not(':eq('+first+')').css(opts.cssBefore);
-        if (opts.cssFirst)
+        if (opts.cssFirst) {
             $($slides[first]).css(opts.cssFirst);
+		}
 
         if (opts.timeout) {
             // ensure that timeout and speed settings are sane
-            if (opts.speed.constructor == String)
+            if (opts.speed.constructor === String) {
                 opts.speed = {slow: 600, fast: 200}[opts.speed] || 400;
-            if (!opts.sync)
+			}
+            if (!opts.sync) {
                 opts.speed = opts.speed / 2;
-            while((opts.timeout - opts.speed) < 250)
+			}
+            while((opts.timeout - opts.speed) < 250) {
                 opts.timeout += opts.speed;
+			}
         }
-        if (opts.easing) 
+        if (opts.easing) {
             opts.easeIn = opts.easeOut = opts.easing;
-        if (!opts.speedIn) 
+		}
+        if (!opts.speedIn) {
             opts.speedIn = opts.speed;
-        if (!opts.speedOut) 
+		}
+        if (!opts.speedOut) {
             opts.speedOut = opts.speed;
+		}
 
  		opts.slideCount = els.length;
         opts.currSlide = first;
         if (opts.random) {
             opts.nextSlide = opts.currSlide;
-            if (++opts.randomIndex == els.length) 
+            if (++opts.randomIndex === els.length) {
                 opts.randomIndex = 0;
+			}
             opts.nextSlide = opts.randomMap[opts.randomIndex];
         }
-        else
+        else {
             opts.nextSlide = opts.startingSlide >= (els.length-1) ? 0 : opts.startingSlide+1;
+		}
 
         // fire artificial events
         var e0 = $slides[first];
-        if (opts.before.length)
+        if (opts.before.length) {
             opts.before[0].apply(e0, [e0, e0, opts, true]);
-        if (opts.after.length > 1)
+		}
+        if (opts.after.length > 1) {
             opts.after[1].apply(e0, [e0, e0, opts, true]);
+		}
         
-        if (opts.click && !opts.next)
+        if (opts.click && !opts.next) {
             opts.next = opts.click;
-        if (opts.next)
-            $(opts.next).bind('click', function(){return advance(els,opts,opts.rev?-1:1)});
-        if (opts.prev)
-            $(opts.prev).bind('click', function(){return advance(els,opts,opts.rev?1:-1)});
-        if (opts.pager)
+		}
+        if (opts.next) {
+            $(opts.next).bind('click', function(){return advance(els,opts,opts.rev?-1:1);});
+		}
+        if (opts.prev) {
+            $(opts.prev).bind('click', function(){return advance(els,opts,opts.rev?1:-1);});
+		}
+        if (opts.pager) {
             buildPager(els,opts);
-        if (opts.timeout)
-            this.cycleTimeout = setTimeout(function(){go(els,opts,0,!opts.rev)}, opts.timeout + (opts.delay||0));
+		}
+        if (opts.timeout) {
+            this.cycleTimeout = setTimeout(function(){go(els,opts,0,!opts.rev);}, opts.timeout + (opts.delay||0));
+		}
     });
 };
 
 function go(els, opts, manual, fwd) {
-    if (opts.busy) return;
+    if (opts.busy) { return; }
     var p = els[0].parentNode, curr = els[opts.currSlide], next = els[opts.nextSlide];
-    if (p.cycleTimeout === 0 && !manual) 
-        return;
+    if (p.cycleTimeout === 0 && !manual) { return; }
 
-    if (!manual && !p.cyclePause && opts.autostop && (--opts.countdown <= 0)) 
-        return;
+    if (!manual && !p.cyclePause && opts.autostop && (--opts.countdown <= 0)) { return; }
 
     if (manual || !p.cyclePause) {
-        if (opts.before.length)
+        if (opts.before.length) {
             $.each(opts.before, function(i,o) { o.apply(next, [curr, next, opts, fwd]); });
+		}
         var after = function() {
-            if ($.browser.msie && opts.cleartype)
+            if ($.browser.msie && opts.cleartype) {
                 this.style.removeAttribute('filter');
+			}
             $.each(opts.after, function(i,o) { o.apply(next, [curr, next, opts, fwd]); });
         };
 
-        if (opts.nextSlide != opts.currSlide) {
+        if (opts.nextSlide !== opts.currSlide) {
             opts.busy = 1;
-            if (opts.fxFn)
+            if (opts.fxFn) {
                 opts.fxFn(curr, next, opts, after, fwd);
-            else if ($.isFunction($.fn.cycle[opts.fx]))
+			}
+            else if ($.isFunction($.fn.cycle[opts.fx])) {
                 $.fn.cycle[opts.fx](curr, next, opts, after);
-            else
+			}
+            else {
                 $.fn.cycle.custom(curr, next, opts, after);
+			}
         }
         if (opts.random) {
             opts.currSlide = opts.nextSlide;
-            if (++opts.randomIndex == els.length) 
+            if (++opts.randomIndex === els.length) {
                 opts.randomIndex = 0;
+			}
             opts.nextSlide = opts.randomMap[opts.randomIndex];
         }
         else { // sequence
-            var roll = (opts.nextSlide + 1) == els.length;
+            var roll = (opts.nextSlide + 1) === els.length;
             opts.nextSlide = roll ? 0 : opts.nextSlide+1;
             opts.currSlide = roll ? els.length-1 : opts.nextSlide-1;
         }
-        if (opts.pager)
+        if (opts.pager) {
             $(opts.pager).find('a').removeClass('activeSlide').filter('a:eq('+opts.currSlide+')').addClass('activeSlide');
+		}
     }
-    if (opts.timeout)
-        p.cycleTimeout = setTimeout(function() { go(els,opts,0,!opts.rev) }, opts.timeout);
-};
+    if (opts.timeout) {
+        p.cycleTimeout = setTimeout(function() { go(els,opts,0,!opts.rev); }, opts.timeout);
+	}
+}
 
 // advance slide forward or back
 function advance(els, opts, val) {
@@ -217,20 +244,23 @@ function advance(els, opts, val) {
         p.cycleTimeout = 0;
     }
     opts.nextSlide = opts.currSlide + val;
-    if (opts.nextSlide < 0)
+    if (opts.nextSlide < 0) {
         opts.nextSlide = els.length - 1;
-    else if (opts.nextSlide >= els.length)
+	}
+    else if (opts.nextSlide >= els.length) {
         opts.nextSlide = 0;
-    if (opts.prevNextClick && typeof opts.prevNextClick == 'function')
+	}
+    if (opts.prevNextClick && typeof opts.prevNextClick === 'function') {
         opts.prevNextClick(val > 0, opts.nextSlide, els[opts.nextSlide]);
+	}
     go(els, opts, 1, val>=0);
     return false;
-};
+}
 
 function buildPager(els, opts) {
     var $p = $(opts.pager);
     $.each(els, function(i,o) {
-        var $a = (typeof opts.pagerAnchorBuilder == 'function')
+        var $a = (typeof opts.pagerAnchorBuilder === 'function')
             ? $(opts.pagerAnchorBuilder(i,o))
             : $('<a href="#">'+(i+1)+'</a>');
         // don't reparent if anchor is in the dom
