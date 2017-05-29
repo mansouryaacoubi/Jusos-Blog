@@ -1,11 +1,13 @@
+/*exported changeFontSize */
 function changeFontSize(inc)
 {
   var p = document.getElementsByTagName('p');
-  for(n=0; n<p.length; n++) {
-    if(p[n].style.fontSize) {
-       var size = parseInt(p[n].style.fontSize.replace('px', ''));
+  for(var n=0; n<p.length; n++) {
+    var size = 0;
+	if(p[n].style.fontSize) {
+       size = parseInt(p[n].style.fontSize.replace('px', ''), 10);
     } else {
-       var size = 12;
+       size = 12;
     }
     p[n].style.fontSize = size+inc + 'px';
    }
