@@ -1,5 +1,5 @@
 # Jusos-Blog
-![https://travis-ci.org/mansouryaacoubi/Jusos-Blog.svg?branch=master]
+![Travis Banner][travis]
 Jusos-Blog Wordpress Theme (Young Socialists in the SPD/Jusos in der SPD) for Jusos-Clubs in Germany.
 A more detailed explanation can be found in [myblog/Jusos][myblog].
 
@@ -39,6 +39,7 @@ Working on a shell-script...
 - improved og-metadata (information for Social Sharing)
 
 
+[travis]: <https://travis-ci.org/mansouryaacoubi/Jusos-Blog.svg?branch=master>
 [myblog]: <http://mansour.yaacoubi.com/create-your-own-jusos-blog/>
 [sevzip]: <http://www.7-zip.org/>
 [juexmp]: <http://jusos.ga>
