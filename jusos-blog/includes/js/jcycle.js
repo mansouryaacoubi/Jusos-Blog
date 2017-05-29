@@ -486,7 +486,10 @@ jQuery.fn.cycle.transitions.shuffle = function($cont, $slides, opts) {
     opts.fxFn = function(curr, next, opts, cb, fwd) {
         var $el = fwd ? jQuery(curr) : jQuery(next);
         $el.animate(opts.shuffle, opts.speedIn, opts.easeIn, function() {
-            fwd ? opts.els.push(opts.els.shift()) : opts.els.unshift(opts.els.pop());
+			//	Original: fwd ? opts.els.push(opts.els.shift()) : opts.els.unshift(opts.els.pop());
+			if(fwd) { opts.els.push(opts.els.shift()); }
+			else { opts.els.unshift(opts.els.pop()); }
+			
             if (fwd) {
                 for (var i=0, len=opts.els.length; i < len; i++) {
                     jQuery(opts.els[i]).css('z-index', len-i);
