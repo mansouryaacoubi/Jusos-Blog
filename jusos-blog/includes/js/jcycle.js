@@ -21,58 +21,64 @@ var ie6 = $.browser.msie && /MSIE 6.0/.test(navigator.userAgent);
 $.fn.cycle = function(options) {
     return this.each(function() {
         options = options || {};
-        if (options.constructor == String) {
+        if (options.constructor === String) {
             switch(options) {
-            case 'stop':
-                if (this.cycleTimeout) clearTimeout(this.cycleTimeout);
-                this.cycleTimeout = 0;
-                return;
-            case 'pause':
-                this.cyclePause = 1;
-                return;
-            case 'resume':
-                this.cyclePause = 0;
-                return;
-            default:
-                options = { fx: options };
-            };
+				case 'stop':
+					if (this.cycleTimeout) { clearTimeout(this.cycleTimeout); }
+					this.cycleTimeout = 0;
+					return;
+				case 'pause':
+					this.cyclePause = 1;
+					return;
+				case 'resume':
+					this.cyclePause = 0;
+					return;
+				default:
+					options = { fx: options };
+            }
         }
         var $cont = $(this);
         var $slides = options.slideExpr ? $(options.slideExpr, this) : $cont.children();
         var els = $slides.get();
-        if (els.length < 2) return; // don't bother
+        if (els.length < 2) { return; } // don't bother
 
         // support metadata plugin (v1.0 and v2.0)
         var opts = $.extend({}, $.fn.cycle.defaults, options || {}, $.metadata ? $cont.metadata() : $.meta ? $cont.data() : {});
-        if (opts.autostop) 
+	if (opts.autostop) {
             opts.countdown = opts.autostopCount || els.length;
+	}
             
         opts.before = opts.before ? [opts.before] : [];
         opts.after = opts.after ? [opts.after] : [];
         opts.after.unshift(function(){ opts.busy=0; });
 
         // clearType corrections
-        if (ie6 && opts.cleartype && !opts.cleartypeNoBg)
+        if (ie6 && opts.cleartype && !opts.cleartypeNoBg) {
             clearTypeFix($slides);
+		}
 
         // allow shorthand overrides of width, height and timeout
         var cls = this.className;
-        var w = parseInt((cls.match(/w:(\d+)/)||[])[1]) || opts.width;
-        var h = parseInt((cls.match(/h:(\d+)/)||[])[1]) || opts.height;
-        opts.timeout = parseInt((cls.match(/t:(\d+)/)||[])[1]) || opts.timeout;
+        var w = parseInt((cls.match(/w:(\d+)/)||[])[1], 10) || opts.width;
+        var h = parseInt((cls.match(/h:(\d+)/)||[])[1], 10) || opts.height;
+        opts.timeout = parseInt((cls.match(/t:(\d+)/)||[])[1], 10) || opts.timeout;
 
-        if ($cont.css('position') == 'static') 
+        if ($cont.css('position') === 'static') {
             $cont.css('position', 'relative');
-        if (w) 
+		}
+        if (w) {
             $cont.width(w);
-        if (h && h != 'auto') 
+		}
+        if (h && h !== 'auto') {
             $cont.height(h);
+		}
 
         if (opts.random) {
             opts.randomMap = [];
-            for (var i = 0; i < els.length; i++) 
+            for (var i = 0; i < els.length; i++) {
                 opts.randomMap.push(i);
-            opts.randomMap.sort(function(a,b) {return Math.random() - 0.5;});
+			}
+            opts.randomMap.sort(function(){return Math.random() - 0.5;});
             opts.randomIndex = 0;
             opts.startingSlide = opts.randomMap[0];
         }
