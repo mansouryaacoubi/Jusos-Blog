@@ -6,8 +6,8 @@ sfHover = function() {
 		sfEls[i].onmouseover = function() {
 			this.className += ' sfhover';
 		};
-		sfEls[i].onmouseout=function() {
-			this.className=this.className.replace(new RegExp(' sfhover\\b'), '');
+		sfEls[i].onmouseout = function() {
+			this.className = this.className.replace( new RegExp( ' sfhover\\b' ), '' );
 		};
 	}
 };
