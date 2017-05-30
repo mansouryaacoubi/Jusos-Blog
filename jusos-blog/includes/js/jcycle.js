@@ -20,7 +20,8 @@ var ie6 = $.browser.msie && /MSIE 6.0/.test( navigator.userAgent );
 
 $.fn.cycle = function( options ) {
     return this.each(function() {
-        var $cont, $slides;
+        var $cont, $slides, els, opts,
+			cls, w, h, i, first, z, init;
 		options = options || {};
         if ( options.constructor === String ) {
             switch ( options ) {
@@ -42,95 +43,103 @@ $.fn.cycle = function( options ) {
         }
         $cont = $( this );
         $slides = options.slideExpr ? $( options.slideExpr, this ) : $cont.children();
-        var els = $slides.get();
+        els = $slides.get();
         if ( els.length < 2 ) {
 			return; // Don't bother
 		}
 
         // Support metadata plugin (v1.0 and v2.0)
-        var opts = $.extend({}, $.fn.cycle.defaults, options || {}, $.metadata ? $cont.metadata() : $.meta ? $cont.data() : {});
-	if (opts.autostop) {
-            opts.countdown = opts.autostopCount || els.length;
-	}
-            
-        opts.before = opts.before ? [opts.before] : [];
-        opts.after = opts.after ? [opts.after] : [];
-        opts.after.unshift(function(){ opts.busy=0; });
-
-        // clearType corrections
-        if (ie6 && opts.cleartype && !opts.cleartypeNoBg) {
-            clearTypeFix($slides);
+        opts = $.extend({}, $.fn.cycle.defaults, options || {}, $.metadata ? $cont.metadata() : $.meta ? $cont.data() : {});
+		if ( opts.autostop ) {
+			opts.countdown = opts.autostopCount || els.length;
 		}
 
-        // allow shorthand overrides of width, height and timeout
-        var cls = this.className;
-        var w = parseInt((cls.match(/w:(\d+)/)||[])[1], 10) || opts.width;
-        var h = parseInt((cls.match(/h:(\d+)/)||[])[1], 10) || opts.height;
-        opts.timeout = parseInt((cls.match(/t:(\d+)/)||[])[1], 10) || opts.timeout;
+        opts.before	= opts.before ? [opts.before] : [];
+        opts.after	= opts.after ? [opts.after] : [];
+        opts.after.unshift( function() {
+			opts.busy = 0;
+		} );
 
-        if ($cont.css('position') === 'static') {
-            $cont.css('position', 'relative');
-		}
-        if (w) {
-            $cont.width(w);
-		}
-        if (h && h !== 'auto') {
-            $cont.height(h);
+        // ClearType corrections
+        if ( ie6 && opts.cleartype && ! opts.cleartypeNoBg ) {
+            clearTypeFix( $slides );
 		}
 
-        if (opts.random) {
+        // Allow shorthand overrides of width, height and timeout
+        cls = this.className;
+        w = parseInt( ( cls.match(/w:(\d+)/) || [] )[1], 10 ) || opts.width;
+        h = parseInt( ( cls.match(/h:(\d+)/) || [] )[1], 10 ) || opts.height;
+        opts.timeout = parseInt( (cls.match(/t:(\d+)/) || [])[1], 10 ) || opts.timeout;
+
+        if ( $cont.css( 'position' ) === 'static' ) {
+            $cont.css( 'position', 'relative' );
+		}
+        if ( w ) {
+            $cont.width( w );
+		}
+        if ( h && h !== 'auto' ) {
+            $cont.height( h );
+		}
+
+        if ( opts.random ) {
             opts.randomMap = [];
-            for (var i = 0; i < els.length; i++) {
-                opts.randomMap.push(i);
+            for ( i = 0; i < els.length; i++ ) {
+                opts.randomMap.push( i );
 			}
-            opts.randomMap.sort(function(){return Math.random() - 0.5;});
+            opts.randomMap.sort( function() {
+				return Math.random() - 0.5;
+			});
             opts.randomIndex = 0;
             opts.startingSlide = opts.randomMap[0];
         }
         else if (opts.startingSlide >= els.length) {
 			opts.startingSlide = 0;  // catch bogus input
 		}
-        var first = opts.startingSlide || 0;
-        $slides.css('position','absolute').hide().each(function(i) { 
-            var z = first ? i >= first ? els.length - (i-first) : first-i : els.length-i;
-            $(this).css('z-index', z);
+        first = opts.startingSlide || 0;
+        $slides.css( 'position','absolute' ).hide().each( function( i ) { 
+            z = first ? i >= first ? els.length - ( i - first ) : first - i : els.length - i;
+            $( this ).css( 'z-index', z );
         });
         
-        $(els[first]).show();
-        if (opts.fit && w) {
-			$slides.width(w);
+        $( els[first] ).show();
+        if ( opts.fit && w ) {
+			$slides.width( w );
 		}
-        if (opts.fit && h && h !== 'auto') {
-            $slides.height(h);
+        if ( opts.fit && h && h !== 'auto' ) {
+            $slides.height( h );
 		}
-        if (opts.pause) {
-            $cont.hover(function(){this.cyclePause=1;}, function(){this.cyclePause=0;});
+        if ( opts.pause ) {
+            $cont.hover( function() {
+				this.cyclePause = 1;
+			} , function() {
+				this.cyclePause = 0;
+			});
 		}
 
         // run transition init fn
-        var init = $.fn.cycle.transitions[opts.fx];
-        if ($.isFunction(init)) {
-            init($cont, $slides, opts);
+        init = $.fn.cycle.transitions[opts.fx];
+        if ( $.isFunction(init) ) {
+            init( $cont, $slides, opts );
 		}
 
-        $slides.each(function() {
-            var $el = $(this);
-            this.cycleH = (opts.fit && h) ? h : $el.height();
-            this.cycleW = (opts.fit && w) ? w : $el.width();
+        $slides.each( function() {
+            var $el = $( this );
+            this.cycleH = ( opts.fit && h ) ? h : $el.height();
+            this.cycleW = ( opts.fit && w ) ? w : $el.width();
         });
 
         opts.cssBefore = opts.cssBefore || {};
         opts.animIn = opts.animIn || {};
         opts.animOut = opts.animOut || {};
 
-        $slides.not(':eq('+first+')').css(opts.cssBefore);
-        if (opts.cssFirst) {
-            $($slides[first]).css(opts.cssFirst);
+        $slides.not( ':eq(' + first + ')' ).css( opts.cssBefore );
+        if ( opts.cssFirst ) {
+            $( $slides[first] ).css( opts.cssFirst );
 		}
 
-        if (opts.timeout) {
+        if ( opts.timeout ) {
             // ensure that timeout and speed settings are sane
-            if (opts.speed.constructor === String) {
+            if ( opts.speed.constructor === String ) {
                 opts.speed = {slow: 600, fast: 200}[opts.speed] || 400;
 			}
             if (!opts.sync) {
