@@ -42,8 +42,12 @@ before_script:
     - git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ $WP_DEVELOP_DIR
     # Set up Twenty Sixteen theme information.
     - theme_slug=$(basename $(pwd))
+    - echo $theme_slug
     - theme_dir=$WP_DEVELOP_DIR/src/wp-content/themes/$theme_slug
+    - echo $theme_dir
     - cd ..
+    - pwd
+    - ls
     - mv $theme_slug $theme_dir
     # Set up WordPress configuration.
     - cd $WP_DEVELOP_DIR
