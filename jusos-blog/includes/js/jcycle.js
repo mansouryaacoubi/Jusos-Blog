@@ -20,12 +20,14 @@ var ie6 = $.browser.msie && /MSIE 6.0/.test( navigator.userAgent );
 
 $.fn.cycle = function( options ) {
     return this.each(function() {
-        options = options || {};
+        var $cont, $slides;
+		options = options || {};
         if ( options.constructor === String ) {
             switch ( options ) {
 				case 'stop':
-					if ( this.cycleTimeout )
-					{ clearTimeout( this.cycleTimeout ); }
+					if ( this.cycleTimeout ) {
+						clearTimeout( this.cycleTimeout );
+					}
 					this.cycleTimeout = 0;
 					return;
 				case 'pause':
@@ -38,12 +40,14 @@ $.fn.cycle = function( options ) {
 					options = { fx: options };
             }
         }
-        var $cont = $(this);
-        var $slides = options.slideExpr ? $(options.slideExpr, this) : $cont.children();
+        $cont = $( this );
+        $slides = options.slideExpr ? $( options.slideExpr, this ) : $cont.children();
         var els = $slides.get();
-        if (els.length < 2) { return; } // don't bother
+        if ( els.length < 2 ) {
+			return; // Don't bother
+		}
 
-        // support metadata plugin (v1.0 and v2.0)
+        // Support metadata plugin (v1.0 and v2.0)
         var opts = $.extend({}, $.fn.cycle.defaults, options || {}, $.metadata ? $cont.metadata() : $.meta ? $cont.data() : {});
 	if (opts.autostop) {
             opts.countdown = opts.autostopCount || els.length;
