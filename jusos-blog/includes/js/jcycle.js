@@ -13,18 +13,19 @@
  *  2) Torsten Baldes (http://medienfreunde.com/lab/innerfade/)
  *  3) Benjamin Sterling (http://www.benjaminsterling.com/experiments/jqShuffle/)
  */
-(function($) {
+(function( $ ) {
 
 var ver = '2.09';
-var ie6 = $.browser.msie && /MSIE 6.0/.test(navigator.userAgent);
+var ie6 = $.browser.msie && /MSIE 6.0/.test( navigator.userAgent );
 
-$.fn.cycle = function(options) {
+$.fn.cycle = function( options ) {
     return this.each(function() {
         options = options || {};
-        if (options.constructor === String) {
-            switch(options) {
+        if ( options.constructor === String ) {
+            switch ( options ) {
 				case 'stop':
-					if (this.cycleTimeout) { clearTimeout(this.cycleTimeout); }
+					if ( this.cycleTimeout )
+					{ clearTimeout( this.cycleTimeout ); }
 					this.cycleTimeout = 0;
 					return;
 				case 'pause':
