@@ -59,6 +59,9 @@ before_script:
     # Install WordPress Coding Standards.
     - mkdir wordpress-coding-standards && curl -L https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/archive/master.tar.gz | tar xz --strip-components=1 -C wordpress-coding-standards
     # Hop into CodeSniffer directory.
+    - ls wordpress-coding-standards
+    - ls wordpress-coding-standards/bin
+    - ls php-codesniffer
     - cd php-codesniffer
     # Set install path for WordPress Coding Standards
     # @link https://github.com/squizlabs/PHP_CodeSniffer/blob/4237c2fc98cc838730b76ee9cee316f99286a2a7/CodeSniffer.php#L1941
@@ -94,5 +97,6 @@ script:
     # -n flag: Do not print warnings (shortcut for --warning-severity=0)
     # --standard: Use WordPress as the standard.
     # --extensions: Only sniff PHP files.
+    - pwd
     - ls
     - $WP_DEVELOP_DIR/php-codesniffer/bin/phpcs -p -s -v -n . --standard=./codesniffer.ruleset.xml --extensions=php
